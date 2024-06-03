@@ -1,4 +1,4 @@
-import { Box, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -10,7 +10,11 @@ const Login = () => {
                 py: 4,
                 display: "flex",
                 flexDirection: "column",
-                minWidth: "30vw",
+                minWidth: {
+                    xs: "80vw",
+                    sm: "50vw",
+                    md: "30vw",
+                },
             }}
         >
             <Typography
@@ -48,7 +52,7 @@ const Login = () => {
                 />
             </Box>
 
-            <Box sx={{ mb: 4 }}>
+            <Box sx={{ mb: 3 }}>
                 <Typography sx={{ mb: 1 }}>Enter your Password</Typography>
                 <TextField
                     label="Password"
@@ -58,11 +62,39 @@ const Login = () => {
                 />
             </Box>
 
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: "#454955",
+                    color: "white",
+                    outline: "none !important",
+                    border: "none",
+                    py: 1,
+                    mb: 3,
+                    "&:hover": {
+                        backgroundColor: "#3d444b",
+                        outline: "none !important",
+                        border: "none",
+                    },
+                    "&.MuiButton-active": {
+                        backgroundColor: "#514e5a",
+                        outline: "none !important",
+                        border: "none",
+                    },
+                }}
+            >
+                LOG IN
+            </Button>
+
             <Box sx={{ display: "flex", justifyContent: "center" }}>
                 Don't have an account?{" "}
                 <Link
                     to="/register"
-                    style={{ textDecoration: "underline", marginLeft: "6px" }}
+                    style={{
+                        textDecoration: "underline",
+                        marginLeft: "6px",
+                        color: "#1a76d1",
+                    }}
                 >
                     Create Account
                 </Link>
