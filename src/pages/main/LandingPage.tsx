@@ -2,6 +2,7 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import { BlurhashComponent } from "../../components";
 import { useState } from "react";
 import people from "../../assets/landing.jpg";
+import { Link } from "react-router-dom";
 
 const LandingPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -144,29 +145,34 @@ const LandingPage = () => {
                             mt: 4,
                         }}
                     >
-                        <Button
-                            variant="contained"
-                            sx={{
-                                backgroundColor: "#454955",
-                                color: "white",
-                                outline: "none !important",
-                                border: "none",
-                                width: 200,
-                                height: 50,
-                                "&:hover": {
-                                    backgroundColor: "#3d444b",
-                                    outline: "none !important",
-                                    border: "none",
-                                },
-                                "&.MuiButton-active": {
-                                    backgroundColor: "#514e5a",
-                                    outline: "none !important",
-                                    border: "none",
-                                },
-                            }}
+                        <Link
+                            to="/register"
+                            style={{ textDecoration: "none", color: "inherit" }}
                         >
-                            GET STARTED
-                        </Button>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: "#454955",
+                                    color: "white",
+                                    outline: "none !important",
+                                    border: "none",
+                                    width: 200,
+                                    height: 50,
+                                    "&:hover": {
+                                        backgroundColor: "#3d444b",
+                                        outline: "none !important",
+                                        border: "none",
+                                    },
+                                    "&.MuiButton-active": {
+                                        backgroundColor: "#514e5a",
+                                        outline: "none !important",
+                                        border: "none",
+                                    },
+                                }}
+                            >
+                                GET STARTED
+                            </Button>
+                        </Link>
                     </Box>
                 </Grid>
             </Grid>

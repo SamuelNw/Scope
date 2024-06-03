@@ -59,15 +59,20 @@ export default function Header() {
                         </Drawer>
                     </>
                 ) : (
-                    <Button
-                        sx={{
-                            color: "inherit",
-                            border: "1px solid white",
-                            outline: "none !important",
-                        }}
+                    <Link
+                        to="/login"
+                        style={{ textDecoration: "none", color: "inherit" }}
                     >
-                        Login
-                    </Button>
+                        <Button
+                            sx={{
+                                color: "inherit",
+                                border: "1px solid white",
+                                outline: "none !important",
+                            }}
+                        >
+                            Login
+                        </Button>
+                    </Link>
                 )}
             </Toolbar>
         </AppBar>

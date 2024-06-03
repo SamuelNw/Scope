@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthLayout, GenericLayout } from "./layouts";
 import { LandingPage } from "./pages/main";
-import { publicRoutes } from "./navigation/routes";
+import { privateRoutes, publicRoutes } from "./navigation/routes";
 import AppRoute from "./navigation/routes/route";
 
 function App() {
@@ -18,9 +18,10 @@ function App() {
             />
 
             {/* Routes accessible to unauthorized users: */}
-            {publicRoutes.map((route) => (
+            {publicRoutes.map((route, idx) => (
                 <Route
-                    key={route.path}
+                    key={idx}
+                    path={route.path}
                     element={
                         <AppRoute>
                             <AuthLayout>
@@ -32,9 +33,10 @@ function App() {
             ))}
 
             {/* Routes accessible only to Authorized users: */}
-            {publicRoutes.map((route) => (
+            {privateRoutes.map((route, idx) => (
                 <Route
-                    key={route.path}
+                    key={idx}
+                    path={route.path}
                     element={
                         <AppRoute>
                             <GenericLayout>

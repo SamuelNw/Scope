@@ -1,7 +1,10 @@
-import { LandingPage } from "../../pages/main";
+import { Home, LandingPage } from "../../pages/main";
 import { Login, Register } from "../../pages/auth";
 
-export const privateRoutes = [];
+export const privateRoutes = [
+    // Pages accessible only to Authorized users:
+    { path: "/home", component: Home },
+];
 
 export const publicRoutes = [
     // Pages accessible by unauthorized users:
