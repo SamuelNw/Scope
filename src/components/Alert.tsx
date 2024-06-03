@@ -10,7 +10,7 @@ export default function CustomAlert({ type, message }: AlertProps) {
         <Box
             sx={{
                 p: 1.5,
-                my: 1,
+                mb: 1,
                 textAlign: "center",
                 border:
                     type === "success"
