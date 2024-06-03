@@ -13,7 +13,8 @@ const Login = () => {
                 minWidth: {
                     xs: "80vw",
                     sm: "50vw",
-                    md: "30vw",
+                    md: "40vw",
+                    lg: "30vw",
                 },
             }}
         >
