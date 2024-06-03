@@ -6,9 +6,25 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+//@ts-ignore
+import { auth } from "../firebase.js";
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+
+    const handleSignout = async () => {
+        try {
+            await signOut(auth);
+
+            // redirect user to landing page:
+            navigate("/");
+        } catch (e) {
+            console.error("Error while trying to logout: ", e);
+        }
+    };
+
     return (
         <Grid
             sx={{
@@ -46,7 +62,11 @@ const Sidebar = () => {
                 <Typography
                     variant="h5"
                     component="div"
-                    sx={{ flexGrow: 1, fontWeight: "bold", color: "#1a76d1" }}
+                    sx={{
+                        flexGrow: 1,
+                        fontWeight: "bold",
+                        color: "#1a76d1",
+                    }}
                 >
                     <Link
                         to="/"
@@ -107,6 +127,8 @@ const Sidebar = () => {
                     </Typography>
                     <Button
                         variant="contained"
+                        type="button"
+                        onClick={handleSignout}
                         sx={{
                             backgroundColor: "#454955",
                             color: "white",
