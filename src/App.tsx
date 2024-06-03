@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import { AuthLayout, GenericLayout } from "./layouts";
 import { LandingPage } from "./pages/main";
 import { publicRoutes } from "./navigation/routes";

@@ -4,7 +4,11 @@ export default function Header() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{ flexGrow: 1, fontWeight: "bold" }}
+                >
                     Scope
                 </Typography>
                 <Button color="inherit">Login</Button>
