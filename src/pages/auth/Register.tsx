@@ -44,8 +44,6 @@ const Register = () => {
                 navigate("/login");
             }, 2500);
         } catch (error) {
-            console.error("Error while trying to create account: ", error);
-
             // Handle alerts content:
             setAlertContent({
                 message: "That email is already in use.",
