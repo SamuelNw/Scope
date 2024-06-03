@@ -1,7 +1,65 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+// @ts-ignore
+import { auth } from "../../firebase.js";
+import CustomAlert from "../../components/Alert.js";
+
+interface AlertContentTypes {
+    message: string;
+    type: "success" | "error" | "";
+}
 
 const Login = () => {
+    // Component states go here:
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [alertContent, setAlertContent] = useState<AlertContentTypes>({
+        message: "",
+        type: "",
+    });
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+
+            // Clear input fields off user input:
+            setEmail("");
+            setPassword("");
+
+            // Handle Alerts:
+            setAlertContent({
+                message: "Login operation is a success!",
+                type: "success",
+            });
+
+            // Redirect the user to the login page:
+            setTimeout(() => {
+                navigate("/home");
+            }, 2500);
+        } catch (error) {
+            console.error("Error while trying to sign in: ", error);
+
+            // Handle alerts content:
+            setAlertContent({
+                message: "Invalid Credentials.",
+                type: "error",
+            });
+        } finally {
+            setTimeout(() => {
+                setAlertContent({
+                    message: "",
+                    type: "",
+                });
+            }, 2000);
+        }
+    };
+
     return (
         <Paper
             elevation={3}
@@ -49,6 +107,7 @@ const Login = () => {
                     label="Email"
                     type="email"
                     size="small"
+                    onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: "100%" }}
                 />
             </Box>
@@ -59,12 +118,23 @@ const Login = () => {
                     label="Password"
                     type="password"
                     size="small"
+                    onChange={(e) => setPassword(e.target.value)}
                     sx={{ width: "100%" }}
                 />
             </Box>
 
+            {alertContent.message && (
+                <CustomAlert
+                    message={alertContent.message}
+                    type={alertContent.type}
+                />
+            )}
+
             <Button
                 variant="contained"
+                type="submit"
+                disabled={!email || password.length <= 6}
+                onClick={handleSubmit}
                 sx={{
                     backgroundColor: "#454955",
                     color: "white",
