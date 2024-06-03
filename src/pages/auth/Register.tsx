@@ -14,7 +14,7 @@ const Register = () => {
                     xs: "80vw",
                     sm: "50vw",
                     md: "40vw",
-                    lg: "30vw",
+                    lg: "25vw",
                 },
             }}
         >
