@@ -6,11 +6,24 @@ const GenericLayout: React.FC<{ children: React.ReactElement }> = ({
 }) => {
     return (
         <Grid
-            sx={{ backgroundColor: "white", width: "100vw", height: "100vh" }}
+            sx={{
+                backgroundColor: "white",
+                width: "100vw",
+                minHeight: "100vh",
+            }}
         >
             <Header />
 
-            <Grid sx={{}}>{children}</Grid>
+            <Grid
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flex: 1,
+                    minHeight: "86vh",
+                }}
+            >
+                {children}
+            </Grid>
 
             <Footer />
         </Grid>
