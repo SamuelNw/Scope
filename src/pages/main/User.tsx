@@ -85,7 +85,7 @@ const User = () => {
             const user = await fetchUser(userId);
             setUserData(user);
             const userAlbums = await fetchAlbums(userId);
-            const albums = userAlbums.map((album: Album, index: number) => ({
+            const albums = userAlbums.map((album: Album) => ({
                 ...album,
                 actions: (
                     <Button
