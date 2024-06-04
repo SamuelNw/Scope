@@ -1,12 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useLocation, Navigate } from "react-router-dom";
+import { RootState } from "../../context/store";
 
 interface AppRouteProps {
     children: React.ReactNode;
 }
 
 const AppRoute: React.FC<AppRouteProps> = ({ children }) => {
-    const isUserAuthenticated = false;
+    const loggedIn = useSelector((state: RootState) => state.user.email);
+    const isUserAuthenticated = loggedIn !== null;
+
     const location = useLocation();
 
     const defaultRedirectPath = "/";

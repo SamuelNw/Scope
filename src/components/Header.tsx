@@ -10,10 +10,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import { useSelector } from "react-redux";
+import { RootState } from "../context/store";
 
 export default function Header() {
     const isSmallScreen = useMediaQuery("(max-width: 850px)");
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+    const { email } = useSelector((state: RootState) => state.user);
 
     const handleDrawerOpen = () => {
         setIsDrawerOpen(true);
@@ -39,7 +43,7 @@ export default function Header() {
                     </Link>
                 </Typography>
 
-                {isSmallScreen ? (
+                {isSmallScreen && email !== null ? (
                     <>
                         <MenuIcon
                             sx={{

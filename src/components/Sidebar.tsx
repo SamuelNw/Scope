@@ -6,17 +6,21 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
-import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-//@ts-ignore
-import { auth } from "../firebase.js";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../context/user/userActions.js";
+import { RootState } from "../context/store.js";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
+    const { email } = useSelector((state: RootState) => state.user);
+
     const handleSignout = async () => {
         try {
-            await signOut(auth);
+            await dispatch(logoutUser());
 
             // redirect user to landing page:
             navigate("/");
@@ -123,7 +127,7 @@ const Sidebar = () => {
                             mb: 2,
                         }}
                     >
-                        dummyemail@gmail.com
+                        {email}
                     </Typography>
                     <Button
                         variant="contained"
