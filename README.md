@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+# Scope
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Users - Albums - Photos
 
-Currently, two official plugins are available:
+Scope is a practice project for a frontend development skill assessment task. It consumes the [JSON placeholder API](https://jsonplaceholder.typicode.com/) to allow users to interact with the `/users`, `/albums`, and `/photos` resources.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Languages & Tools:
 
-## Expanding the ESLint configuration
+-   JavaScript & TypeScript
+-   React & React Router (Frontend Framework)
+-   Redux ToolKit (State management Library)
+-   Firebase SDK (Authentication and Deployment)
+-   MaterialUI (React's styling utility library for building responsive and appealing sites)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+#### Features:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+-   Landing page with optimized image rendering and about section.
+-   Account creation with email and password.
+-   Sign in functionality with the same details.
+-   Customized Error and Success alerts for the above operations.
+-   Authprotected routes that are only accessible to authorized users.
+-   Routing and Redirection using react router.
+-   State Management that persists through refreshes - thanks to [redux-persist](https://www.npmjs.com/package/redux-persist) npm package.
+-   Fully responsive.
