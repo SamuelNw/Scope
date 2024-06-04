@@ -21,4 +21,6 @@ Scope is a practice project for a frontend development skill assessment task. It
 -   Authprotected routes that are only accessible to authorized users.
 -   Routing and Redirection using react router.
 -   State Management that persists through refreshes - thanks to [redux-persist](https://www.npmjs.com/package/redux-persist) npm package.
+-   Fetching users and displaying this info in appealing tables with sorting, search and filtering functionalities.
+-   Updating resources where needed.
 -   Fully responsive.
