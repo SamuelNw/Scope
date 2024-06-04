@@ -23,4 +23,6 @@ jobs:
             - name: Authenticate Firebase
               env:
                   FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-              run: firebase deploy --only hosting
+              run: |
+                  yarn build
+                  $(npm bin)/firebase deploy --only hosting --token "$FIREBASE_TOKEN"
