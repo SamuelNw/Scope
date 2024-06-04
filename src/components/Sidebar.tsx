@@ -20,6 +20,7 @@ const Sidebar = () => {
 
     const handleSignout = async () => {
         try {
+            // @ts-ignore
             await dispatch(logoutUser());
 
             // redirect user to landing page:

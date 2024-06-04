@@ -52,9 +52,11 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            const result = (await dispatch(
+            // @ts-ignore
+            const result = await dispatch(
+                // @ts-ignore
                 loginUser({ email, password })
-            )) as UserCredentials;
+            );
 
             setIsLoading(false);
 
