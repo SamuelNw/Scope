@@ -19,6 +19,11 @@ const GenericLayout: React.FC<{ children: React.ReactElement }> = ({
 
             <Grid
                 sx={{
+                    width: "100vw",
+                    height: "100vh",
+                    display: "flex",
+                    flexDirection: "column !important",
+                    overflowY: "scroll",
                     flex: 1,
                     px: {
                         xs: 2,

@@ -1,7 +1,8 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 import GenericTable from "../../components/GenericTable";
 import { useEffect, useState } from "react";
-import { fetchUsers } from "../service";
+import { fetchAlbums, fetchUsers } from "../service";
+import { useNavigate } from "react-router";
 
 interface User {
     id: number;
@@ -12,6 +13,7 @@ interface User {
     phone: string;
     website: string;
     company: Company;
+    albumCount?: number;
 }
 
 interface Address {
@@ -36,19 +38,46 @@ interface Company {
 interface UserDataListTypes extends Array<User> {}
 
 const Home = () => {
-    const columns = ["id", "name", "username", "email"];
+    const navigate = useNavigate();
+    const columns = [
+        "id",
+        "name",
+        "username",
+        "email",
+        "albumCount",
+        "actions",
+    ];
 
     const [usersList, setUsersList] = useState<UserDataListTypes>([]);
 
     const populateUsersList = async () => {
         try {
-            const data = await fetchUsers();
-            setUsersList(data);
+            const users = await fetchUsers();
+            const userAlbumsPromises = users.map((user: User) =>
+                fetchAlbums(user.id)
+            );
+            const albumsData = await Promise.all(userAlbumsPromises);
+
+            const usersWithAlbumCount = users.map(
+                (user: User, index: number) => ({
+                    ...user,
+                    albumCount: albumsData[index].length,
+                    actions: (
+                        <Button
+                            variant="outlined"
+                            onClick={() => navigate(`/user/${user.id}`)}
+                        >
+                            View
+                        </Button>
+                    ),
+                })
+            );
+
+            setUsersList(usersWithAlbumCount);
         } catch (error) {
             console.error("Error fetching users:", error);
         }
     };
-
     useEffect(() => {
         populateUsersList();
     }, []);
@@ -61,7 +90,6 @@ const Home = () => {
                 flexDirection: "column",
                 py: 2,
                 overflowY: "scroll",
-                // border: "5px solid red",
             }}
         >
             <Typography variant="h6" sx={{ color: "#1a76d1", my: 4 }}>
