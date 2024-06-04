@@ -1,6 +1,5 @@
 import {
     AppBar,
-    Button,
     Drawer,
     Toolbar,
     Typography,
@@ -12,6 +11,7 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "../context/store";
+import HomeActionButtons from "./HomeActionButtons";
 
 export default function Header() {
     const isSmallScreen = useMediaQuery("(max-width: 850px)");
@@ -63,20 +63,7 @@ export default function Header() {
                         </Drawer>
                     </>
                 ) : (
-                    <Link
-                        to="/login"
-                        style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                        <Button
-                            sx={{
-                                color: "inherit",
-                                border: "1px solid white",
-                                outline: "none !important",
-                            }}
-                        >
-                            Login
-                        </Button>
-                    </Link>
+                    <HomeActionButtons />
                 )}
             </Toolbar>
         </AppBar>
