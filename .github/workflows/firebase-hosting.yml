@@ -1,28 +1,43 @@
-name: Deploy to Firebase
-
+name: Firebase Deployment
 on:
     pull_request:
         branches:
             - main
-
+        types:
+            - closed
 jobs:
-    deploy:
+    build:
+        name: Build
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v2
+            - name: Checkout Repo
+              uses: actions/checkout@v2.3.2
+            - name: Install Dependencies
+              run: yarn
+            - name: Build
+              env:
+                  CI: false
+              run: yarn build
+            - name: Archive Production Artifact
+              uses: actions/upload-artifact@v2
               with:
-                  node-version: "20"
-
-            - name: Install Firebase Tools
-              run: yarn global add -g firebase-tools
-
-            - name: Authenticate Firebase
+                  name: build
+                  path: dist
+    deploy:
+        name: Deploy
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v2.3.2
+            - name: Download Artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: build
+                  path: build
+            - name: Deploy to Firebase
+              uses: w9jds/firebase-action@master
+              with:
+                  args: deploy --only hosting
               env:
                   FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-              run: |
-                  yarn build
-                  $(npm bin)/firebase deploy --only hosting --token "$FIREBASE_TOKEN"
