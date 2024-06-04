@@ -25,14 +25,37 @@ const Login = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
+    // Function to validate email format
+    const validateEmail = (email: string) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
+
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        // Validate email format
+        if (!validateEmail(email)) {
+            setAlertContent({
+                message: "Please enter a valid email address.",
+                type: "error",
+            });
+            setTimeout(() => {
+                setAlertContent({
+                    message: "",
+                    type: "",
+                });
+            }, 2800);
+            return;
+        }
+
         setIsLoading(true);
 
-        const result = await dispatch(loginUser({ email, password }));
+        try {
+            const result = (await dispatch(
+                loginUser({ email, password })
+            )) as UserCredentials;
 
-        if (loginUser.fulfilled.match(result)) {
             setIsLoading(false);
 
             // Clear input fields off user input:
@@ -45,26 +68,27 @@ const Login = () => {
                 type: "success",
             });
 
-            // Redirect the user to the login page:
+            // Redirect the user to the home page:
             setTimeout(() => {
                 navigate("/home");
-            }, 2500);
-        } else {
+            }, 3000);
+        } catch (error) {
             setIsLoading(false);
 
+            // Handle errors
             setAlertContent({
-                // @ts-ignore
-                message: (result.payload as string) || "Invalid Credentials.",
+                message: "Invalid Credentials.",
                 type: "error",
             });
+        } finally {
+            // Clear alert after 2.8 seconds
+            setTimeout(() => {
+                setAlertContent({
+                    message: "",
+                    type: "",
+                });
+            }, 2800);
         }
-
-        setTimeout(() => {
-            setAlertContent({
-                message: "",
-                type: "",
-            });
-        }, 2000);
     };
 
     return (
@@ -115,6 +139,7 @@ const Login = () => {
                     type="email"
                     size="small"
                     autoFocus={true}
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: "100%" }}
                 />
@@ -126,6 +151,7 @@ const Login = () => {
                     label="Password"
                     type="password"
                     size="small"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ width: "100%" }}
                 />

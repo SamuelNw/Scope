@@ -25,8 +25,29 @@ const Register = () => {
 
     const navigate = useNavigate();
 
+    // Function to validate email format
+    const validateEmail = (email: string) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    };
+
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
+
+        // Validate email format
+        if (!validateEmail(email)) {
+            setAlertContent({
+                message: "The email address is invalid.",
+                type: "error",
+            });
+            setTimeout(() => {
+                setAlertContent({
+                    message: "",
+                    type: "",
+                });
+            }, 2800);
+            return;
+        }
 
         setIsLoading(true);
 
@@ -35,35 +56,45 @@ const Register = () => {
 
             setIsLoading(false);
 
-            // Clear input fields off user input:
+            // Clear input fields
             setEmail("");
             setPassword("");
 
-            // Handle Alerts:
+            // Show success message
             setAlertContent({
                 message: "Account has been created successfully.",
                 type: "success",
             });
 
-            // Redirect the user to the login page:
+            // Redirect to login page after 3 seconds
             setTimeout(() => {
                 navigate("/login");
-            }, 2500);
+            }, 3000);
         } catch (error) {
             setIsLoading(false);
-            // Handle alerts content:
-            setAlertContent({
-                message: "That email is already in use.",
-                type: "error",
-            });
+            // Handle Firebase specific errors
+            // @ts-ignore
+            if (error.code === "auth/email-already-in-use") {
+                setAlertContent({
+                    message: "That email address is already in use.",
+                    type: "error",
+                });
+            } else {
+                // Handle other errors
+                setAlertContent({
+                    message: "An error occurred. Please try again later.",
+                    type: "error",
+                });
+            }
         } finally {
             setIsLoading(false);
+            // Clear alert after 2.8 seconds
             setTimeout(() => {
                 setAlertContent({
                     message: "",
                     type: "",
                 });
-            }, 2000);
+            }, 2800);
         }
     };
 
@@ -106,7 +137,7 @@ const Register = () => {
                     Create An Account
                 </Typography>
 
-                <small>Sign up, to access our services.</small>
+                <small>Sign up to access our services.</small>
             </Box>
 
             <Box sx={{ mb: 2 }}>
@@ -116,6 +147,7 @@ const Register = () => {
                     type="email"
                     size="small"
                     autoFocus={true}
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: "100%" }}
                 />
@@ -129,6 +161,7 @@ const Register = () => {
                     label="Password"
                     type="password"
                     size="small"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ width: "100%" }}
                 />
