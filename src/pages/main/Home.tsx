@@ -1,4 +1,10 @@
-import { Button, Grid, Paper } from "@mui/material";
+import {
+    Button,
+    CircularProgress,
+    Grid,
+    Paper,
+    Typography,
+} from "@mui/material";
 import GenericTable from "../../components/GenericTable";
 import { useEffect, useState } from "react";
 import { fetchAlbums, fetchUsers } from "../service";
@@ -39,6 +45,7 @@ interface UserDataListTypes extends Array<User> {}
 
 const Home = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const columns = [
         {
@@ -70,6 +77,7 @@ const Home = () => {
     const [usersList, setUsersList] = useState<UserDataListTypes>([]);
 
     const populateUsersList = async () => {
+        setIsLoading(true);
         try {
             const users = await fetchUsers();
             const userAlbumsPromises = users.map((user: User) =>
@@ -92,11 +100,12 @@ const Home = () => {
                     ),
                 })
             );
-
             setUsersList(usersWithAlbumCount);
         } catch (error) {
             console.error("Error fetching users:", error);
         }
+
+        setIsLoading(false);
     };
     useEffect(() => {
         populateUsersList();
@@ -105,7 +114,6 @@ const Home = () => {
     return (
         <Grid
             sx={{
-                flex: 1,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -113,25 +121,48 @@ const Home = () => {
                 py: 2,
             }}
         >
-            <Paper
-                elevation={3}
-                sx={{
-                    lex: 1,
-                    overflowY: "scroll",
-                    pb: 2,
-                    maxWidth: {
-                        xs: "380px",
-                        sm: "600px",
-                        md: "100%",
-                    },
-                }}
-            >
-                <GenericTable
-                    columns={columns}
-                    data={usersList}
-                    title="Users"
-                />
-            </Paper>
+            {isLoading ? (
+                <Grid
+                    item
+                    xs={12}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mt: "50px",
+                    }}
+                >
+                    <CircularProgress />
+                </Grid>
+            ) : usersList ? (
+                <>
+                    <Typography variant="h6" sx={{ color: "black", mb: 4 }}>
+                        Users In the System:
+                    </Typography>
+                    <Paper
+                        elevation={3}
+                        sx={{
+                            lex: 1,
+                            overflowY: "scroll",
+                            pb: 2,
+                            maxWidth: {
+                                xs: "380px",
+                                sm: "600px",
+                                md: "100%",
+                            },
+                        }}
+                    >
+                        <GenericTable
+                            columns={columns}
+                            data={usersList}
+                            title="Users"
+                        />
+                    </Paper>
+                </>
+            ) : (
+                <Grid item xs={12}>
+                    <Typography variant="body1">Data not found.</Typography>
+                </Grid>
+            )}
         </Grid>
     );
 };
