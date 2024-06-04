@@ -1,4 +1,4 @@
-import { Album, Home, LandingPage, User } from "../../pages/main";
+import { Album, Home, LandingPage, Photo, User } from "../../pages/main";
 import { Login, Register } from "../../pages/auth";
 
 export const privateRoutes = [
@@ -6,6 +6,7 @@ export const privateRoutes = [
     { path: "/home", component: Home },
     { path: "/user/:userId", component: User },
     { path: "/album/:albumId", component: Album },
+    { path: "/photo/:photoId", component: Photo },
 ];
 
 export const publicRoutes = [

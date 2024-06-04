@@ -24,3 +24,8 @@ export const fetchPhotos = async (id: number) => {
     const photos = await CommonAPI.get(`/photos?albumId=${id}`);
     return photos.data;
 };
+
+export const fetchPhoto = async (id: number) => {
+    const photo = await CommonAPI.get(`/photos/${id}`);
+    return photo.data;
+};
