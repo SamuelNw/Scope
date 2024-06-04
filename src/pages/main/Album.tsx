@@ -99,10 +99,6 @@ const Album = () => {
                 py: 2,
             }}
         >
-            <Typography
-                variant="h6"
-                sx={{ color: "black", mb: 1 }}
-            >{`Details for album: ${albumData?.title || ""}`}</Typography>
             {isLoading ? (
                 <Grid
                     item
@@ -117,6 +113,12 @@ const Album = () => {
                 </Grid>
             ) : albumData && photos ? (
                 <>
+                    <Typography
+                        variant="h6"
+                        sx={{ color: "black", mb: 1 }}
+                    >{`Details for album: ${
+                        albumData?.title || ""
+                    }`}</Typography>
                     <Grid
                         sx={{
                             display: "flex",

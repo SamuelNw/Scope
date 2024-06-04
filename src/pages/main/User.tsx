@@ -118,20 +118,24 @@ const User = () => {
                 py: 2,
             }}
         >
-            <Typography
-                variant="h6"
-                sx={{ color: "black", mb: 1 }}
-            >{`Details for ${userData?.name || ""}`}</Typography>
             {isLoading ? (
                 <Grid
                     item
                     xs={12}
-                    sx={{ display: "flex", justifyContent: "center" }}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mt: "50px",
+                    }}
                 >
                     <CircularProgress />
                 </Grid>
             ) : userData && userAlbums ? (
                 <>
+                    <Typography
+                        variant="h6"
+                        sx={{ color: "black", mb: 1 }}
+                    >{`Details for ${userData?.name || ""}`}</Typography>
                     <Grid
                         sx={{
                             display: "flex",
