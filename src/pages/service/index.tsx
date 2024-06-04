@@ -14,3 +14,13 @@ export const fetchUser = async (id: number) => {
     const user = await CommonAPI.get(`/users/${id}`);
     return user.data;
 };
+
+export const fetchAlbum = async (id: number) => {
+    const album = await CommonAPI.get(`/albums/${id}`);
+    return album.data;
+};
+
+export const fetchPhotos = async (id: number) => {
+    const photos = await CommonAPI.get(`/photos?albumId=${id}`);
+    return photos.data;
+};
