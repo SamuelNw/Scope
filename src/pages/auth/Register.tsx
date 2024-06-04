@@ -21,13 +21,19 @@ const Register = () => {
         type: "",
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         try {
             await createUserWithEmailAndPassword(auth, email, password);
+
+            setIsLoading(false);
 
             // Clear input fields off user input:
             setEmail("");
@@ -44,12 +50,14 @@ const Register = () => {
                 navigate("/login");
             }, 2500);
         } catch (error) {
+            setIsLoading(false);
             // Handle alerts content:
             setAlertContent({
                 message: "That email is already in use.",
                 type: "error",
             });
         } finally {
+            setIsLoading(false);
             setTimeout(() => {
                 setAlertContent({
                     message: "",
@@ -107,6 +115,7 @@ const Register = () => {
                     label="Email"
                     type="email"
                     size="small"
+                    autoFocus={true}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: "100%" }}
                 />
@@ -135,7 +144,7 @@ const Register = () => {
             <Button
                 variant="contained"
                 type="submit"
-                disabled={!email || password.length <= 6}
+                disabled={!email || password.length <= 6 || isLoading}
                 onClick={handleSubmit}
                 sx={{
                     backgroundColor: "#454955",
@@ -156,7 +165,15 @@ const Register = () => {
                     },
                 }}
             >
-                CREATE ACCOUNT
+                {isLoading ? (
+                    <Typography sx={{ color: "white", fontSize: 16 }}>
+                        Creating...
+                    </Typography>
+                ) : (
+                    <Typography sx={{ color: "white", fontSize: 16 }}>
+                        CREATE ACCOUNT
+                    </Typography>
+                )}
             </Button>
 
             <Box sx={{ display: "flex", justifyContent: "center" }}>

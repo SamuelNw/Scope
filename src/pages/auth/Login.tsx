@@ -25,14 +25,18 @@ const Login = () => {
 
     // State Management
     const dispatch = useDispatch();
-    const { loading } = useSelector((state: RootState) => state.user);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         const result = await dispatch(loginUser({ email, password }));
 
         if (loginUser.fulfilled.match(result)) {
+            setIsLoading(false);
+
             // Clear input fields off user input:
             setEmail("");
             setPassword("");
@@ -48,6 +52,8 @@ const Login = () => {
                 navigate("/home");
             }, 2500);
         } else {
+            setIsLoading(false);
+
             setAlertContent({
                 // @ts-ignore
                 message: (result.payload as string) || "Invalid Credentials.",
@@ -110,6 +116,7 @@ const Login = () => {
                     label="Email"
                     type="email"
                     size="small"
+                    autoFocus={true}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={{ width: "100%" }}
                 />
@@ -136,7 +143,7 @@ const Login = () => {
             <Button
                 variant="contained"
                 type="submit"
-                disabled={!email || password.length <= 6 || loading}
+                disabled={!email || password.length <= 6 || isLoading}
                 onClick={handleSubmit}
                 sx={{
                     backgroundColor: "#454955",
@@ -157,7 +164,15 @@ const Login = () => {
                     },
                 }}
             >
-                {loading ? "Logging in..." : "LOG IN"}
+                {isLoading ? (
+                    <Typography sx={{ color: "white", fontSize: 16 }}>
+                        Logging in...
+                    </Typography>
+                ) : (
+                    <Typography sx={{ color: "white", fontSize: 16 }}>
+                        LOG IN
+                    </Typography>
+                )}
             </Button>
 
             <Box sx={{ display: "flex", justifyContent: "center" }}>
