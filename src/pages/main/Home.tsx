@@ -160,7 +160,9 @@ const Home = () => {
                 </>
             ) : (
                 <Grid item xs={12}>
-                    <Typography variant="body1">Data not found.</Typography>
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                        Data not found.
+                    </Typography>
                 </Grid>
             )}
         </Grid>

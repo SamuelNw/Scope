@@ -398,7 +398,9 @@ const User = () => {
                 </>
             ) : (
                 <Grid item xs={12}>
-                    <Typography variant="body1">User not found.</Typography>
+                    <Typography variant="body1" sx={{ color: "black" }}>
+                        User not found.
+                    </Typography>
                 </Grid>
             )}
         </Grid>
