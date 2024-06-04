@@ -86,9 +86,6 @@ const Home = () => {
                             variant="outlined"
                             size="small"
                             onClick={() => navigate(`/user/${user.id}`)}
-                            sx={{
-                                my: "0 !important",
-                            }}
                         >
                             View
                         </Button>

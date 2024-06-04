@@ -26,7 +26,7 @@ const genericTableTheme = createTheme({
                     color: "grey",
                 },
                 body: {
-                    padding: "24px 20px",
+                    padding: "15px 20px",
                     color: "black",
                     ":first-of-type": {
                         // Target first cell within each row
