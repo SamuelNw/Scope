@@ -1,10 +1,11 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// @ts-ignore
-import { auth } from "../../firebase.js";
 import CustomAlert from "../../components/Alert.js";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../../context/store.js";
+import { loginUser } from "../../context/user/userActions.js";
 
 interface AlertContentTypes {
     message: string;
@@ -22,12 +23,16 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    // State Management
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state: RootState) => state.user);
+
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
+        const result = await dispatch(loginUser({ email, password }));
 
+        if (loginUser.fulfilled.match(result)) {
             // Clear input fields off user input:
             setEmail("");
             setPassword("");
@@ -42,22 +47,20 @@ const Login = () => {
             setTimeout(() => {
                 navigate("/home");
             }, 2500);
-        } catch (error) {
-            console.error("Error while trying to sign in: ", error);
-
-            // Handle alerts content:
+        } else {
             setAlertContent({
-                message: "Invalid Credentials.",
+                // @ts-ignore
+                message: (result.payload as string) || "Invalid Credentials.",
                 type: "error",
             });
-        } finally {
-            setTimeout(() => {
-                setAlertContent({
-                    message: "",
-                    type: "",
-                });
-            }, 2000);
         }
+
+        setTimeout(() => {
+            setAlertContent({
+                message: "",
+                type: "",
+            });
+        }, 2000);
     };
 
     return (
@@ -133,7 +136,7 @@ const Login = () => {
             <Button
                 variant="contained"
                 type="submit"
-                disabled={!email || password.length <= 6}
+                disabled={!email || password.length <= 6 || loading}
                 onClick={handleSubmit}
                 sx={{
                     backgroundColor: "#454955",
@@ -154,7 +157,7 @@ const Login = () => {
                     },
                 }}
             >
-                LOG IN
+                {loading ? "Logging in..." : "LOG IN"}
             </Button>
 
             <Box sx={{ display: "flex", justifyContent: "center" }}>
