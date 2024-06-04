@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 
 interface GenericTableProps {
     data: any;
-    columns: string[];
+    columns: { name: string; label: string }[];
     title: string;
     options?: any;
 }
@@ -12,7 +12,8 @@ const genericOptions = {
     selectableRows: "none",
     elevation: 0,
     rowsPerPage: 5,
-    rowsPerPageOptions: [5, 10, 20, 30],
+    rowsPerPageOptions: [5],
+    responsive: "standard",
 };
 
 // Customization styles for the Data table:

@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Typography } from "@mui/material";
+import { Button, Grid, Paper } from "@mui/material";
 import GenericTable from "../../components/GenericTable";
 import { useEffect, useState } from "react";
 import { fetchAlbums, fetchUsers } from "../service";
@@ -39,13 +39,32 @@ interface UserDataListTypes extends Array<User> {}
 
 const Home = () => {
     const navigate = useNavigate();
+
     const columns = [
-        "id",
-        "name",
-        "username",
-        "email",
-        "albumCount",
-        "actions",
+        {
+            name: "id",
+            label: "ID",
+        },
+        {
+            name: "name",
+            label: "NAME",
+        },
+        {
+            name: "username",
+            label: "USERNAME",
+        },
+        {
+            name: "email",
+            label: "EMAIL",
+        },
+        {
+            name: "albumCount",
+            label: "ALBUM COUNT",
+        },
+        {
+            name: "actions",
+            label: "ACTIONS",
+        },
     ];
 
     const [usersList, setUsersList] = useState<UserDataListTypes>([]);
@@ -65,7 +84,11 @@ const Home = () => {
                     actions: (
                         <Button
                             variant="outlined"
+                            size="small"
                             onClick={() => navigate(`/user/${user.id}`)}
+                            sx={{
+                                my: "0 !important",
+                            }}
                         >
                             View
                         </Button>
@@ -85,18 +108,27 @@ const Home = () => {
     return (
         <Grid
             sx={{
-                height: "100%",
+                flex: 1,
                 display: "flex",
                 flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
                 py: 2,
-                overflowY: "scroll",
             }}
         >
-            <Typography variant="h6" sx={{ color: "#1a76d1", my: 4 }}>
-                Currently, only the following users are in the database:{" "}
-            </Typography>
-
-            <Paper elevation={3} sx={{ pb: 2 }}>
+            <Paper
+                elevation={3}
+                sx={{
+                    lex: 1,
+                    overflowY: "scroll",
+                    pb: 2,
+                    maxWidth: {
+                        xs: "380px",
+                        sm: "600px",
+                        md: "100%",
+                    },
+                }}
+            >
                 <GenericTable
                     columns={columns}
                     data={usersList}
