@@ -18,7 +18,7 @@ jobs:
                   node-version: "20"
 
             - name: Install Firebase Tools
-              run: npm install -g firebase-tools
+              run: yarn global -g firebase-tools
 
             - name: Authenticate Firebase
               env:
