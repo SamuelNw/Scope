@@ -18,8 +18,12 @@ const GenericLayout: React.FC<{ children: React.ReactElement }> = ({
             <Header />
 
             <Grid
+                item
                 sx={{
                     flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "auto",
                     px: {
                         xs: 2,
                         sm: 2,
@@ -27,7 +31,6 @@ const GenericLayout: React.FC<{ children: React.ReactElement }> = ({
                         lg: 8,
                         xl: 20,
                     },
-                    // py: { sm: 6, md: 0 },
                 }}
             >
                 {children}
