@@ -29,3 +29,14 @@ export const fetchPhoto = async (id: number) => {
     const photo = await CommonAPI.get(`/photos/${id}`);
     return photo.data;
 };
+
+export const editPhotoTitle = async (text: string, id: number) => {
+    try {
+        const updatedPhoto = await CommonAPI.patch(`/photos/${id}`, {
+            title: text,
+        });
+        return updatedPhoto;
+    } catch (error) {
+        throw error;
+    }
+};

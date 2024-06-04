@@ -5,10 +5,14 @@ import {
     Box,
     Button,
     Paper,
+    Modal,
+    TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchPhoto } from "../service";
+import { editPhotoTitle, fetchPhoto } from "../service";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface Photo {
     albumId: string;
@@ -18,12 +22,44 @@ interface Photo {
     thumbnail: string;
 }
 
+type PositionType = "absolute";
+
+export const modalStyle = {
+    position: "absolute" as PositionType,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#F3EEF4",
+    border: "2px solid transparent",
+    borderRadius: "10px",
+    boxShadow: 12,
+    p: 3,
+    width: {
+        xs: "90%",
+        sm: "70%",
+        md: "30%",
+    },
+};
+
+export const outerBoxCustomStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "column",
+};
+
+export const innerBoxCustomStyle = {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+};
+
 const Photo = () => {
     const { photoId } = useParams();
     const photoID = parseInt(photoId!);
     const [photoData, setPhotoData] = useState<Photo | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [title, setTitle] = useState("");
     const navigate = useNavigate();
 
     const fetchData = async (photoId: number) => {
@@ -41,6 +77,34 @@ const Photo = () => {
     useEffect(() => {
         fetchData(photoID);
     }, [photoID]);
+
+    const handleShowModal = () => {
+        setIsModalOpen(!isModalOpen);
+        setTitle(photoData?.title || "");
+    };
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (!photoData) {
+            console.error("Photo data not available.");
+            return;
+        }
+
+        try {
+            const updatedPhoto = await editPhotoTitle(
+                title,
+                parseInt(photoData.id)
+            );
+            setPhotoData(updatedPhoto);
+
+            // Redirect to the updated photo details page
+            navigate(`/photo/${updatedPhoto.id}`);
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Error editing photo title:", error);
+        }
+    };
 
     return (
         <Grid
@@ -205,6 +269,7 @@ const Photo = () => {
                             <Button
                                 variant="contained"
                                 size="small"
+                                onClick={handleShowModal}
                                 sx={{
                                     outline: "none !important",
                                     alignSelf: "flex-end",
@@ -221,6 +286,102 @@ const Photo = () => {
                     <Typography variant="body1">Data not found.</Typography>
                 </Grid>
             )}
+
+            <Modal open={isModalOpen} onClose={handleShowModal}>
+                <Box sx={modalStyle}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            mb: 3,
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            component="h2"
+                            sx={{
+                                fontSize: "20px",
+                                fontWeight: 700,
+                                color: "#1a76d1",
+                            }}
+                        >
+                            Edit Photo Title
+                        </Typography>
+
+                        <Button
+                            type="button"
+                            variant="text"
+                            onClick={handleShowModal}
+                            sx={{
+                                color: "black",
+                                height: "38px",
+                                width: "fit-content",
+                                p: "10px 17px 10px 17px",
+                                borderRadius: "8px",
+                                fontSize: "14px",
+                                fontWeight: 500,
+                                outline: "none !important",
+                            }}
+                        >
+                            <CloseIcon />
+                        </Button>
+                    </Box>
+
+                    <Box sx={outerBoxCustomStyle}>
+                        <Box sx={innerBoxCustomStyle}>
+                            <Typography sx={{ mb: 2, color: "black" }}>
+                                Enter the desired title
+                            </Typography>
+                            <form onSubmit={onSubmit}>
+                                <TextField
+                                    label="Photo title"
+                                    type="text"
+                                    size="small"
+                                    autoFocus={true}
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    sx={{ width: "100%" }}
+                                />
+
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        mt: 2,
+                                    }}
+                                >
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        sx={{
+                                            borderRadius: "8px",
+                                            fontSize: "14px",
+                                            fontWeight: 500,
+                                            outline: "none !important",
+                                        }}
+                                    >
+                                        {!isLoading ? (
+                                            <>
+                                                Submit
+                                                <ArrowForwardIcon
+                                                    sx={{
+                                                        ml: 1,
+                                                        fontSize: "18px",
+                                                    }}
+                                                />
+                                            </>
+                                        ) : (
+                                            "Loading..."
+                                        )}
+                                    </Button>
+                                </Box>
+                            </form>
+                        </Box>
+                    </Box>
+                </Box>
+            </Modal>
         </Grid>
     );
 };

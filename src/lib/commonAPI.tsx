@@ -20,6 +20,15 @@ const post = async (url: string, params: any) => {
         });
 };
 
+const patch = async (url: string, data: any) => {
+    try {
+        const response = await instance.patch(url, data);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const setContentType = (contentType: string) => {
     instance.defaults.headers.common["Content-Type"] = contentType;
 };
@@ -31,6 +40,7 @@ const setAccept = (acceptType: string) => {
 const CommonAPI = {
     post,
     get,
+    patch,
     setContentType,
     setAccept,
 };
