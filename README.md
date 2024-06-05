@@ -24,3 +24,7 @@ Scope is a practice project for a frontend development skill assessment task. It
 -   Fetching users and displaying this info in appealing tables with sorting, search and filtering functionalities.
 -   Updating resources where needed.
 -   Fully responsive.
+
+#### LIVE LINK:
+
+-   The site lives [here](https://scope-savannah.web.app/)
