@@ -1,10 +1,12 @@
 name: Firebase Deployment
+
 on:
     pull_request:
         branches:
             - main
         types:
             - closed
+
 jobs:
     build:
         name: Build
@@ -12,15 +14,25 @@ jobs:
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v2.3.2
+
+            - name: Set up Node.js 20.x
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "20.x"
+                  cache: "npm"
+
             - name: Install Dependencies
               run: yarn
+
             - name: Build
               run: yarn build
+
             - name: Archive Production Artifact
               uses: actions/upload-artifact@v2
               with:
                   name: dist
                   path: dist
+
     deploy:
         name: Deploy
         needs: build
@@ -28,13 +40,15 @@ jobs:
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v2.3.2
+
             - name: Download Artifact
               uses: actions/download-artifact@v2
               with:
                   name: dist
                   path: dist
+
             - name: Deploy to Firebase
-              uses: w9jds/firebase-action@master
+              uses: firebase/firebase-tools-action@v1
               with:
                   args: deploy --only hosting
               env:
