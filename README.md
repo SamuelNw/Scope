@@ -27,4 +27,4 @@ Scope is a practice project for a frontend development skill assessment task. It
 
 #### LIVE LINK:
 
--   The site lives <a href="https://scope-savannah.web.app/" target="_blank">here</a>
+-   The site lives [here](https://scope-savannah.web.app/)
