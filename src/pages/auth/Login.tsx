@@ -34,6 +34,8 @@ const Login = () => {
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         // Validate email format
         if (!validateEmail(email)) {
             setAlertContent({
@@ -45,15 +47,12 @@ const Login = () => {
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2000);
             return;
         }
 
-        setIsLoading(true);
-
         try {
-            // @ts-ignore
-            const result = await dispatch(
+            await dispatch(
                 // @ts-ignore
                 loginUser({ email, password })
             );
@@ -73,7 +72,7 @@ const Login = () => {
             // Redirect the user to the home page:
             setTimeout(() => {
                 navigate("/home");
-            }, 3000);
+            }, 2100);
         } catch (error) {
             setIsLoading(false);
 
@@ -89,13 +88,14 @@ const Login = () => {
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2000);
         }
     };
 
     return (
         <Paper
             elevation={3}
+            component="form"
             sx={{
                 px: 3,
                 py: 4,
@@ -187,6 +187,10 @@ const Login = () => {
                         backgroundColor: "#514e5a",
                         outline: "none !important",
                         border: "none",
+                    },
+                    "&.Mui-disabled": {
+                        backgroundColor: "#9a9a9a",
+                        color: "#c0c0c0",
                     },
                 }}
             >
