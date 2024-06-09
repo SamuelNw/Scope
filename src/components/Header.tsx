@@ -1,5 +1,6 @@
 import {
     AppBar,
+    Box,
     Drawer,
     Toolbar,
     Typography,
@@ -12,6 +13,7 @@ import Sidebar from "./Sidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "../context/store";
 import HomeActionButtons from "./HomeActionButtons";
+import FoundationIcon from "@mui/icons-material/Foundation";
 
 export default function Header() {
     const isSmallScreen = useMediaQuery("(max-width: 850px)");
@@ -42,6 +44,29 @@ export default function Header() {
                         Scope
                     </Link>
                 </Typography>
+
+                {!isSmallScreen && (
+                    <Box
+                        sx={{
+                            mr: "80px",
+                        }}
+                    >
+                        <Link
+                            to="/home"
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                height: "40px",
+                                borderBottom: "1px solid white",
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            <FoundationIcon sx={{ mr: 2 }} />
+                            Go Back Home
+                        </Link>
+                    </Box>
+                )}
 
                 {isSmallScreen && email !== null ? (
                     <>
