@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../context/user/userActions.js";
 import { RootState } from "../context/store.js";
 import { useSelector } from "react-redux";
+import FoundationIcon from "@mui/icons-material/Foundation";
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -93,6 +94,30 @@ const Sidebar = () => {
                 </span>
 
                 <Box sx={{ mb: 5 }}>{/* Where the sidebar items go: */}</Box>
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        mb: 4,
+                        pr: 5,
+                    }}
+                >
+                    <Link
+                        to="/home"
+                        style={{
+                            textDecoration: "none",
+                            color: "#1a76d1",
+                            height: "40px",
+                            borderBottom: "1px solid grey",
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <FoundationIcon sx={{ mr: 2 }} />
+                        Go Back Home
+                    </Link>
+                </Box>
 
                 <Box
                     sx={{

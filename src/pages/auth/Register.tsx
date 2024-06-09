@@ -34,6 +34,8 @@ const Register = () => {
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         // Validate email format
         if (!validateEmail(email)) {
             setAlertContent({
@@ -45,11 +47,9 @@ const Register = () => {
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2500);
             return;
         }
-
-        setIsLoading(true);
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
@@ -69,7 +69,7 @@ const Register = () => {
             // Redirect to login page after 3 seconds
             setTimeout(() => {
                 navigate("/login");
-            }, 3000);
+            }, 2600);
         } catch (error) {
             setIsLoading(false);
             // Handle Firebase specific errors
@@ -94,13 +94,14 @@ const Register = () => {
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2500);
         }
     };
 
     return (
         <Paper
             elevation={3}
+            component="form"
             sx={{
                 px: 3,
                 py: 4,
@@ -195,6 +196,10 @@ const Register = () => {
                         backgroundColor: "#514e5a",
                         outline: "none !important",
                         border: "none",
+                    },
+                    "&.Mui-disabled": {
+                        backgroundColor: "#9a9a9a",
+                        color: "#c0c0c0",
                     },
                 }}
             >

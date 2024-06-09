@@ -34,6 +34,8 @@ const Login = () => {
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
+        setIsLoading(true);
+
         // Validate email format
         if (!validateEmail(email)) {
             setAlertContent({
@@ -45,35 +47,39 @@ const Login = () => {
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2000);
             return;
         }
 
-        setIsLoading(true);
-
         try {
-            // @ts-ignore
-            const result = await dispatch(
+            const response = await dispatch(
                 // @ts-ignore
                 loginUser({ email, password })
             );
 
-            setIsLoading(false);
+            if (!response.error) {
+                setIsLoading(false);
 
-            // Clear input fields off user input:
-            setEmail("");
-            setPassword("");
+                // Clear input fields off user input:
+                setEmail("");
+                setPassword("");
 
-            // Handle Alerts:
-            setAlertContent({
-                message: "Login operation is a success!",
-                type: "success",
-            });
+                // Handle Alerts:
+                setAlertContent({
+                    message: "Login operation is a success!",
+                    type: "success",
+                });
 
-            // Redirect the user to the home page:
-            setTimeout(() => {
-                navigate("/home");
-            }, 3000);
+                // Redirect the user to the home page:
+                setTimeout(() => {
+                    navigate("/home");
+                }, 2100);
+            } else {
+                setAlertContent({
+                    message: "Invalid Credentials.",
+                    type: "error",
+                });
+            }
         } catch (error) {
             setIsLoading(false);
 
@@ -83,19 +89,21 @@ const Login = () => {
                 type: "error",
             });
         } finally {
+            setIsLoading(false);
             // Clear alert after 2.8 seconds
             setTimeout(() => {
                 setAlertContent({
                     message: "",
                     type: "",
                 });
-            }, 2800);
+            }, 2000);
         }
     };
 
     return (
         <Paper
             elevation={3}
+            component="form"
             sx={{
                 px: 3,
                 py: 4,
@@ -187,6 +195,10 @@ const Login = () => {
                         backgroundColor: "#514e5a",
                         outline: "none !important",
                         border: "none",
+                    },
+                    "&.Mui-disabled": {
+                        backgroundColor: "#9a9a9a",
+                        color: "#c0c0c0",
                     },
                 }}
             >
