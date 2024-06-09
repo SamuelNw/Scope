@@ -34,7 +34,9 @@ const GenericLayout: React.FC<{ children: React.ReactElement }> = ({
                 }}
             >
                 <Grid sx={{ flex: 1 }}>{children}</Grid>
-                <Footer />
+                <Grid sx={{ py: 2 }}>
+                    <Footer />
+                </Grid>
             </Grid>
         </Grid>
     );
