@@ -24,6 +24,10 @@ const genericTableTheme = createTheme({
                 head: {
                     padding: "10px 10px",
                     color: "grey",
+                    ":first-of-type": {
+                        // Target first cell within each row
+                        paddingLeft: "16px",
+                    },
                 },
                 body: {
                     padding: "15px 20px",
