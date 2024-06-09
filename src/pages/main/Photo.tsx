@@ -41,7 +41,7 @@ export const modalStyle = {
     boxShadow: 12,
     p: 3,
     width: {
-        xs: "90%",
+        xs: "80%",
         sm: "70%",
         md: "30%",
     },
