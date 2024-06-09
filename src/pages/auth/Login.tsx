@@ -52,27 +52,34 @@ const Login = () => {
         }
 
         try {
-            await dispatch(
+            const response = await dispatch(
                 // @ts-ignore
                 loginUser({ email, password })
             );
 
-            setIsLoading(false);
+            if (!response.error) {
+                setIsLoading(false);
 
-            // Clear input fields off user input:
-            setEmail("");
-            setPassword("");
+                // Clear input fields off user input:
+                setEmail("");
+                setPassword("");
 
-            // Handle Alerts:
-            setAlertContent({
-                message: "Login operation is a success!",
-                type: "success",
-            });
+                // Handle Alerts:
+                setAlertContent({
+                    message: "Login operation is a success!",
+                    type: "success",
+                });
 
-            // Redirect the user to the home page:
-            setTimeout(() => {
-                navigate("/home");
-            }, 2100);
+                // Redirect the user to the home page:
+                setTimeout(() => {
+                    navigate("/home");
+                }, 2100);
+            } else {
+                setAlertContent({
+                    message: "Invalid Credentials.",
+                    type: "error",
+                });
+            }
         } catch (error) {
             setIsLoading(false);
 
@@ -82,6 +89,7 @@ const Login = () => {
                 type: "error",
             });
         } finally {
+            setIsLoading(false);
             // Clear alert after 2.8 seconds
             setTimeout(() => {
                 setAlertContent({

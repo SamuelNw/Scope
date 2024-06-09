@@ -16,7 +16,9 @@ export const loginUser = createAsyncThunk(
             );
             return userCredentials.user.email;
         } catch (error) {
-            return rejectWithValue(error);
+            // Ensure the error message is a string
+            const errorMessage = (error as Error).message || "Failed to login.";
+            return rejectWithValue(errorMessage);
         }
     }
 );
@@ -27,7 +29,10 @@ export const logoutUser = createAsyncThunk(
         try {
             await signOut(auth);
         } catch (error) {
-            return rejectWithValue(error);
+            // Ensure the error message is a string
+            const errorMessage =
+                (error as Error).message || "Failed to logout the user.";
+            return rejectWithValue(errorMessage);
         }
     }
 );
