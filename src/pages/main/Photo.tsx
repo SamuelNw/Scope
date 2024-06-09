@@ -13,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { editPhotoTitle, fetchPhoto } from "../service";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CustomAlert from "../../components/Alert";
 
 interface Photo {
     albumId: string;
@@ -20,6 +21,11 @@ interface Photo {
     title: string;
     url: string;
     thumbnail: string;
+}
+
+interface AlertContentTypes {
+    message: string;
+    type: "success" | "error" | "";
 }
 
 type PositionType = "absolute";
@@ -35,7 +41,7 @@ export const modalStyle = {
     boxShadow: 12,
     p: 3,
     width: {
-        xs: "90%",
+        xs: "80%",
         sm: "70%",
         md: "30%",
     },
@@ -60,6 +66,11 @@ const Photo = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [title, setTitle] = useState("");
+    const [alertContent, setAlertContent] = useState<AlertContentTypes>({
+        message: "",
+        type: "",
+    });
+
     const navigate = useNavigate();
 
     const fetchData = async (photoId: number) => {
@@ -97,12 +108,29 @@ const Photo = () => {
                 parseInt(photoData.id)
             );
             setPhotoData(updatedPhoto);
+            setAlertContent({
+                message: "Title edited successfully!",
+                type: "success",
+            });
 
             // Redirect to the updated photo details page
-            navigate(`/photo/${updatedPhoto.id}`);
-            setIsModalOpen(false);
+            setTimeout(() => {
+                setIsModalOpen(false);
+                navigate(`/photo/${updatedPhoto.id}`);
+            }, 2500);
         } catch (error) {
+            setAlertContent({
+                message: "An error occurred!",
+                type: "error",
+            });
             console.error("Error editing photo title:", error);
+        } finally {
+            setTimeout(() => {
+                setAlertContent({
+                    message: "",
+                    type: "",
+                });
+            }, 2000);
         }
     };
 
@@ -262,7 +290,9 @@ const Photo = () => {
                                 >
                                     Title:
                                 </Typography>{" "}
-                                <Typography sx={{ color: "black" }}>
+                                <Typography
+                                    sx={{ color: "black", maxWidth: "360px" }}
+                                >
                                     {photoData.title}
                                 </Typography>{" "}
                             </Box>
@@ -341,8 +371,15 @@ const Photo = () => {
                                     autoFocus={true}
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
-                                    sx={{ width: "100%" }}
+                                    sx={{ width: "100%", mb: 1 }}
                                 />
+
+                                {alertContent.message && (
+                                    <CustomAlert
+                                        type={alertContent.type}
+                                        message={alertContent.message}
+                                    />
+                                )}
 
                                 <Box
                                     sx={{
