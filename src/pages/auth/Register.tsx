@@ -1,4 +1,12 @@
-import { Paper, Box, Typography, TextField, Button } from "@mui/material";
+import {
+    Paper,
+    Box,
+    Typography,
+    TextField,
+    Button,
+    InputAdornment,
+    IconButton,
+} from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 // @ts-ignore
 import { auth } from "../../firebase.js";
 import { CustomAlert } from "../../components";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface AlertContentTypes {
     message: string;
@@ -24,6 +33,13 @@ const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
+
+    // Handling show and hide password:
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = (event: any) => {
+        event?.preventDefault();
+    };
 
     // Function to validate email format
     const validateEmail = (email: string) => {
@@ -160,11 +176,38 @@ const Register = () => {
                 </Typography>
                 <TextField
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     size="small"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ width: "100%" }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                    sx={{
+                                        border: "none",
+                                        outline: "none",
+                                        padding: 0,
+                                        margin: 0,
+                                        color: "primary",
+                                        "&:hover": {
+                                            backgroundColor: "transparent",
+                                        },
+                                    }}
+                                >
+                                    {showPassword ? (
+                                        <VisibilityOff />
+                                    ) : (
+                                        <Visibility />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </Box>
 

@@ -1,9 +1,18 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    IconButton,
+    InputAdornment,
+    Paper,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CustomAlert from "../../components/Alert.js";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../context/user/userActions.js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface AlertContentTypes {
     message: string;
@@ -20,10 +29,19 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as { from?: string })?.from || "/home";
 
     // State Management
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+
+    // Handling show password functionality:
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = (event: any) => {
+        event.preventDefault();
+    };
 
     // Function to validate email format
     const validateEmail = (email: string) => {
@@ -48,6 +66,7 @@ const Login = () => {
                     type: "",
                 });
             }, 2000);
+            setIsLoading(false);
             return;
         }
 
@@ -70,9 +89,9 @@ const Login = () => {
                     type: "success",
                 });
 
-                // Redirect the user to the home page:
+                // Delay the navigation to show the success alert
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate(from, { replace: true });
                 }, 2100);
             } else {
                 setAlertContent({
@@ -159,11 +178,38 @@ const Login = () => {
                 <Typography sx={{ mb: 1 }}>Enter your Password</Typography>
                 <TextField
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     size="small"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={{ width: "100%" }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                    sx={{
+                                        border: "none",
+                                        outline: "none",
+                                        padding: 0,
+                                        margin: 0,
+                                        color: "primary",
+                                        "&:hover": {
+                                            backgroundColor: "transparent",
+                                        },
+                                    }}
+                                >
+                                    {showPassword ? (
+                                        <VisibilityOff />
+                                    ) : (
+                                        <Visibility />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             </Box>
 
