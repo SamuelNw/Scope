@@ -23,7 +23,13 @@ const AppRoute: React.FC<AppRouteProps> = ({ children }) => {
     // If a user is not logged in and is trying to access a private route, redirect them to the login page:
     // Also, store the page they intended to go to so as to redirect them there after logging in:
     if (!loggedIn && !isUnprotectedRoute) {
-        return <Navigate to={loginPage} replace state={{ from: location }} />;
+        return (
+            <Navigate
+                to={loginPage}
+                replace
+                state={{ from: location.pathname }}
+            />
+        );
     }
 
     // If the above conditions are not met, just redirect the user to said page:

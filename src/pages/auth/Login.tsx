@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CustomAlert from "../../components/Alert.js";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../context/user/userActions.js";
@@ -29,6 +29,8 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as { from?: string })?.from || "/home";
 
     // State Management
     const dispatch = useDispatch();
@@ -64,6 +66,7 @@ const Login = () => {
                     type: "",
                 });
             }, 2000);
+            setIsLoading(false);
             return;
         }
 
@@ -86,9 +89,9 @@ const Login = () => {
                     type: "success",
                 });
 
-                // Redirect the user to the home page:
+                // Delay the navigation to show the success alert
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate(from, { replace: true });
                 }, 2100);
             } else {
                 setAlertContent({
