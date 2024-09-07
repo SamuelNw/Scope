@@ -64,6 +64,8 @@ const Register = () => {
                     type: "",
                 });
             }, 2500);
+
+            setIsLoading(false);
             return;
         }
 
