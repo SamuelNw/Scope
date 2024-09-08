@@ -32,19 +32,6 @@ export default function Header() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography
-                    variant="h5"
-                    component="div"
-                    sx={{ flexGrow: 1, fontWeight: "bold" }}
-                >
-                    <Link
-                        to="/"
-                        style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                        Scope
-                    </Link>
-                </Typography>
-
                 {!isSmallScreen && (
                     <Box
                         sx={{
