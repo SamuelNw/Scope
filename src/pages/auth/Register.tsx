@@ -64,6 +64,8 @@ const Register = () => {
                     type: "",
                 });
             }, 2500);
+
+            setIsLoading(false);
             return;
         }
 
@@ -175,7 +177,7 @@ const Register = () => {
                     Password <small>(Must be more than 6 chars)</small>{" "}
                 </Typography>
                 <TextField
-                    label="Password"
+                    label="Password-box"
                     type={showPassword ? "text" : "password"}
                     size="small"
                     value={password}
@@ -198,6 +200,11 @@ const Register = () => {
                                             backgroundColor: "transparent",
                                         },
                                     }}
+                                    aria-label={
+                                        showPassword
+                                            ? "hide password"
+                                            : "show password"
+                                    }
                                 >
                                     {showPassword ? (
                                         <VisibilityOff />
