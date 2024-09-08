@@ -8,6 +8,17 @@ permissions:
     contents: read
     pull-requests: write
 jobs:
+    # Job for running tests
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: yarn install
+            - run: yarn test --ci # Add the command to run your tests (adjust it to match your test script)
+        # Prevent build/deploy if tests fail
+        if: ${{ success() }}
+
+    # Job for building and previewing if tests pass
     build_and_preview:
         if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         runs-on: ubuntu-latest
