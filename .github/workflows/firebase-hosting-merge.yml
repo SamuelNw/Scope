@@ -19,7 +19,7 @@ jobs:
             VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
         steps:
             - uses: actions/checkout@v4
-            - run: yarn install && yarn build
+            - run: yarn install
             - run: yarn test
         # Prevent build/deploy if tests fail
         if: ${{ success() }}
