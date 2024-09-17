@@ -9,6 +9,7 @@ import GenericTable from "../../components/GenericTable";
 import { useEffect, useState } from "react";
 import { fetchAlbums, fetchUsers } from "../service";
 import { useNavigate } from "react-router";
+import { PieChart } from "../../components";
 
 interface User {
     id: number;
@@ -135,8 +136,14 @@ const Home = () => {
                 </Grid>
             ) : usersList ? (
                 <>
-                    <Typography variant="h6" sx={{ color: "black", mb: 4 }}>
-                        Users In the System:
+                    <Typography variant="h6" color="primary" sx={{ mb: 4 }}>
+                        Chart to show users and their album counts
+                    </Typography>
+
+                    <PieChart usersArray={usersList} />
+
+                    <Typography variant="h6" color="primary" sx={{ my: 4 }}>
+                        More Details on users
                     </Typography>
                     <Paper
                         elevation={3}

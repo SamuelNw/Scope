@@ -11,8 +11,8 @@ interface GenericTableProps {
 const genericOptions = {
     selectableRows: "none",
     elevation: 0,
-    rowsPerPage: 5,
-    rowsPerPageOptions: [5],
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10],
     responsive: "standard",
 };
 
